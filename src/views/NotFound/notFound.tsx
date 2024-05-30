@@ -1,15 +1,12 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-type Props = {}
+type NotFoundProps = {}
 
-type State = {}
+const NotFound: React.FC<NotFoundProps> = () => {
 
-export default class notFound extends Component<Props, State> {
-  state = {}
-
-  render() {
     return (
       <div>notFound</div>
     )
-  }
 }
+
+export default NotFound
