@@ -23,7 +23,7 @@ const DataList: React.FC<DataListProps> = ({ data, deleteText, className }) => {
   const handleSaveChanges = async (id: string) => {
     // Handle save logic here
     try {
-      const response = await fetch(`/api/Admin/DeleteElection/${id}`, {
+      const response = await fetch(`https://localhost:7285/api/Admin/DeleteElection/${id}`, {
         method: 'DELETE',
       });
       if (!response.ok) {

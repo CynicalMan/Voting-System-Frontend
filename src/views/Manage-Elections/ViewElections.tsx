@@ -12,6 +12,7 @@ const ViewElections: React.FC = () => {
   const [election, setElection] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [reload , setReload] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchElectionDetails = async () => {
@@ -19,16 +20,20 @@ const ViewElections: React.FC = () => {
         const data = await getElections();
         console.log(data);
         setElection(data);
+        setReload(true);
       } catch (err:any) {
         setError(err.message);
         console.log(err.message);
       } finally {
         setLoading(false);
+        setReload(true);
+        console.log(reload);
+        
       }
     };
 
     fetchElectionDetails();
-  },[]);
+  },[reload]);
 console.log(election);
 
 

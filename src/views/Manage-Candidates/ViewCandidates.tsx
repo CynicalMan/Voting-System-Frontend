@@ -34,6 +34,7 @@ const ViewCandidates: React.FC = () => {
   const [candidates, setCandidates] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [reload , setReload] = useState<boolean>(false);
 
   // NOTE : useEffect for the UserDetails api
   useEffect(() => {
@@ -47,16 +48,17 @@ const ViewCandidates: React.FC = () => {
         setError(err.message);
       } finally {
         setLoading(false);
+        setReload(true);
       }
     };
     fetchUserDetails();
-  }, []);
+  }, [reload]);
 
 
 
   return (
     <div className="test p-2">
-      {candidates&&<DataTable columns={columns} data={candidates} showActions routes={{
+      {candidates&&<DataTable id="fullName" columns={columns} data={candidates} showActions routes={{
         viewRoute: "ViewCandidateProfile",
         deleteRoute: "DeleteCandidate"
       }} deleteText={"Are you sure you want to delete this candidate?"} />}

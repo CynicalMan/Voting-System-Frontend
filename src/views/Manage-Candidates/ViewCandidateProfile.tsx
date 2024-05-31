@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Profile from "../../components/profile";
 import SearchBar from "../../components/searchbar";
 import {  useNavigate, useParams } from "react-router-dom";
@@ -14,30 +14,31 @@ const ViewCandidateProfile: React.FC<ViewCandidateProfileProps> = () => {
     };
 
     const { id } = useParams<{ id: string }>();
-  // const [admin, setAdmin] = useState<any>(null);
-  // const [loading, setLoading] = useState<boolean>(true);
-  // const [error, setError] = useState<string | null>(null);
+  const [admin, setAdmin] = useState<any>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // NOTE : useEffect for the AdminDetails api
+//   NOTE : useEffect for the AdminDetails api
 
-  // useEffect(() => {
-  //   const fetchAdminDetails = async () => {
-  //     try {
-  //       const response = await fetch(`/api/Admins/${id}`);
-  //       if (!response.ok) {
-  //         throw new Error('Failed to fetch Admin details');
-  //       }
-  //       const data = await response.json();
-  //       setAdmin(data);
-  //     } catch (err:any) {
-  //       setError(err.message);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchAdminDetails = async () => {
+      try {
+        const response = await fetch(`https://localhost:7285/api/Admin/GetAllCandidates/${id}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch Admin details');
+        }
+        
+        const data = await response.json();
+        setAdmin(data);
+      } catch (err:any) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  //   fetchAdminDetails();
-  // }, [id]);
+    fetchAdminDetails();
+  }, [id]);
 
     const data = [
         { key: "Admin ID", value: "20202" },
