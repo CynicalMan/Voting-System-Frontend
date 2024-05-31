@@ -14,25 +14,16 @@ const ViewUsers: React.FC = () => {
   ];
 
   const data = [
-    { name: 'User 1', elections: 'Election name', id: 'User’s SSN' },
-    { name: 'User 2', elections: 'Election name', id: 'User’s SSN' },
+    { name: 'User 1', elections: 'Election name', id: '222' },
+    { name: 'User 2', elections: 'Election name', id: '222' },
   ];
 
-  const [showModal, setShowModal] = useState(false);
-
-  const handleOpenModal = () => setShowModal(true);
-  const handleCloseModal = () => setShowModal(false);
-  const handleSaveChanges = () => {
-    // Handle save logic here
-    console.log('Changes saved');
-    setShowModal(false);
-  };
 
   return (
     <div className="test p-2">
       <DataTable columns={columns} data={data} showActions routes={{
         viewRoute: "ViewUserProfile",
-        deleteRoute: ""
+        deleteRoute: "DeleteUser"
       }} deleteText={"Are you sure you want to delete this user?"} />
     </div>
   );

@@ -47,21 +47,11 @@ const ViewAdmins: React.FC = () => {
     { id: 20203, name: 'Jane11 Smith'},
   ];
 
-  const [showModal, setShowModal] = useState(false);
-
-  const handleOpenModal = () => setShowModal(true);
-  const handleCloseModal = () => setShowModal(false);
-  const handleSaveChanges = () => {
-    // Handle save logic here
-    console.log('Changes saved');
-    setShowModal(false);
-  };
-
   return (
     <div className="test p-2">
       <DataTable columns={columns} data={data} showActions={true} routes={{
         viewRoute: "ViewAdminProfile",
-        deleteRoute: ""
+        deleteRoute: "DeleteAdmin"
       }} deleteText={"Are you sure you want to delete this admin?"} />
       <div className="text-center">
         <Link to={`AddAdmin`} className="btn ">

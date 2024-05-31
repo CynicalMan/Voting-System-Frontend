@@ -11,17 +11,32 @@ type DataListProps = {
   className?: string;
 };
 
-const DataList: React.FC<DataListProps> = ({ data,deleteText, className }) => {
+const DataList: React.FC<DataListProps> = ({ data, deleteText, className }) => {
   console.log(data, className);
 
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   const handleOpenModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
-  const handleSaveChanges = () => {
+  const handleSaveChanges = async (id: string) => {
     // Handle save logic here
-    console.log("Changes saved");
-    setShowModal(false);
+    try {
+      const response = await fetch(`/api/Admin/DeleteElection/${id}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error("Failed to delete election");
+      }
+      console.log("Election deleted");
+    } catch (err: any) {
+      setError(err.message);
+      console.log(error);
+    } finally {
+      setLoading(false);
+      setShowModal(false);
+    }
   };
 
   return (
@@ -46,6 +61,7 @@ const DataList: React.FC<DataListProps> = ({ data,deleteText, className }) => {
               show={showModal}
               onClose={handleCloseModal}
               onSave={handleSaveChanges}
+              deleteId={row.id}
             >
               <p className="fw-600 fs-5 ">{deleteText}</p>
             </Modal>

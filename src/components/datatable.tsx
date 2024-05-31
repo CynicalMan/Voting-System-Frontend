@@ -23,17 +23,34 @@ type DataTableProps = {
 };
 
 const DataTable: React.FC<DataTableProps> = ({ columns, data,showActions = true,routes,deleteText, className }) => {
-  const [showModal, setShowModal] = useState(false);
 
-  console.log(data,routes);
+  console.log(data,routes,columns);
   
+
+  const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   const handleOpenModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
-  const handleSaveChanges = () => {
+  const handleSaveChanges = async (id: string) => {
     // Handle save logic here
-    console.log("Changes saved");
-    setShowModal(false);
+    try {
+      const response = await fetch(`/api/Admin/${routes.deleteRoute}/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete");
+      }
+      console.log("deleted");
+    } catch (err: any) {
+      setError(err.message);
+      console.log(error);
+    } finally {
+      setLoading(false);
+      setShowModal(false);
+    }
   };
 
   return (
@@ -53,7 +70,7 @@ const DataTable: React.FC<DataTableProps> = ({ columns, data,showActions = true,
             </th>}
           </tr>
         </thead>
-        <tbody className="text-center secondry-bg secondry-color">
+        <tbody className="text-center secondary-bg secondary-color">
           {data.map((row, index) => (
             <tr key={index}>
               {columns.map((column) => (
@@ -70,6 +87,7 @@ const DataTable: React.FC<DataTableProps> = ({ columns, data,showActions = true,
                   show={showModal}
                   onClose={handleCloseModal}
                   onSave={handleSaveChanges}
+                  deleteId={row["id"]}
                 >
                   <p className="fw-600 fs-5">
                     {deleteText}

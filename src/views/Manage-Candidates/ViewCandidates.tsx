@@ -8,31 +8,22 @@ import AddIcon from "../../assets/add.png"
 const ViewCandidates: React.FC = () => {
 
   const columns = [
+    { header: 'Id', accessor: 'id' },
     { header: 'Name', accessor: 'name' },
     { header: 'Email', accessor: 'email' },
     { header: 'Role', accessor: 'role' },
   ];
 
   const data = [
-    { name: 'John Doe', email: 'john@example.com', role: 'Admin' },
-    { name: 'Jane Smith', email: 'jane@example.com', role: 'User' },
+    {id: 1, name: 'John Doe', email: 'john@example.com', role: 'Admin' },
+    {id: 3, name: 'Jane Smith', email: 'jane@example.com', role: 'User' },
   ];
-
-  const [showModal, setShowModal] = useState(false);
-
-  const handleOpenModal = () => setShowModal(true);
-  const handleCloseModal = () => setShowModal(false);
-  const handleSaveChanges = () => {
-    // Handle save logic here
-    console.log('Changes saved');
-    setShowModal(false);
-  };
 
   return (
     <div className="test p-2">
       <DataTable columns={columns} data={data} showActions routes={{
         viewRoute: "ViewCandidateProfile",
-        deleteRoute: ""
+        deleteRoute: "DeleteCandidate"
       }} deleteText={"Are you sure you want to delete this candidate?"} />
       <div className="text-center">
         <Link to={`AddCandidate`} className="btn ">

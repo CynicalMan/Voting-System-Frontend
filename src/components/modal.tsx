@@ -2,26 +2,30 @@ import React from "react";
 import "./../components/styles/modal.css";
 import CheckIcon from "../assets/checkmark.png";
 import CloseIcon from "../assets/close.png";
+import { Link } from "react-router-dom";
 
 type Props = {
   show: boolean;
   children: React.ReactNode;
   onClose: () => void;
-  onSave?: () => void;
+  onSave?: (id : string) => void;
+  deleteId: string;
 };
 
-const Modal: React.FC<Props> = ({ show, children, onClose, onSave }) => {
+const Modal: React.FC<Props> = ({ show, children, onClose, onSave,deleteId }) => {
   if (!show) {
     return null;
   }
 
+  console.log(deleteId);
+  
   return (
     <div className="modal-overlay " onClick={onClose}>
       <div className="modal-container fw-bold " onClick={(e) => e.stopPropagation()}>
         <div className="modal-body  fs-5">{children}</div>
         <div className="modal-footer">
           {onSave && (
-            <button className="button" onClick={onSave}>
+            <button className="button" onClick={() => onSave(deleteId)}>
               <img src={CheckIcon} width={37} height={37} alt="" />
             </button>
           )}
