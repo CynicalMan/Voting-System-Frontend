@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./styles/reusableform.css";
-import PlusIcon from "../assets/plus.png"
+import PlusIcon from "../assets/plus.png";
+import { objectToArray } from "../helper/helper";
 
 type FormField = {
   name: string;
@@ -12,7 +13,7 @@ type FormField = {
 
 type Props = {
   fields: FormField[];
-  onSubmit: (formData: { [key: string]: string }) => void;
+  onSubmit: (formData: FormData) => void;
   submitButtonText?: string;
   memberList: boolean;
   className: string;
@@ -27,48 +28,86 @@ const ReusableForm: React.FC<Props> = ({
 }) => {
   const [fields, setFields] = useState<FormField[]>(initialFields);
   const [memberCount, setMemberCount] = useState<number>(2);
-  const [formData, setFormData] = useState<{ [key: string]: string }>({});
-  const [members , setMembers] = useState<{[key:string]:string}>({});
+  const [formData, setFormData] = useState<{ [key: string]: any }>({});
+  const [members, setMembers] = useState<{ [key: string]: any }>({});
+
+
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    const { name, value } = event.target;
-    setFormData({
-      ...formData,
+    const { name, value, files } = event.target;
+    console.log(value);
+    if (name.startsWith("member")) {
+      console.log(value);
+      setMembers({...members,[name]: value})
+    }
+      console.log(value);
       
-      [name]: value,
-    });
+      setFormData({
+        ...formData,
+        [name]: files ? files[0] : value,
+      });
+      console.log(formData);
+      
+    
+    console.log(members);
+    
+    const CandidatesId = {
+      CandidatesId: Object.values(members)
+    };
+
+    console.log(CandidatesId);
+    
+
+    setFormData({...formData,CandidatesId}) 
+    console.log(formData);
+    
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onSubmit(formData);
+    const formDataToSend = new FormData();
+    Object.entries(formData).forEach(([key, value]) => {
+      formDataToSend.append(key, value);
+    });
+    console.log(formDataToSend);
+    
+    onSubmit(formDataToSend);
   };
+
+  console.log(formData);
+  
 
   const addNewMemberField = () => {
     const newField: FormField = {
-      name: `member ${fields.length - 2}`,
+      name: `member ${memberCount + 1}`,
       label: "",
       type: "text",
-      placeholder: `Enter member ${fields.length - 2}`,
+      placeholder: `Enter member ${memberCount + 1}`,
     };
-    console.log(fields.length);
 
     const updatedFields = [...fields];
     updatedFields.splice(memberCount + 1, 0, newField);
     setMemberCount(memberCount + 1);
     console.log(updatedFields);
-
+    
     setFields(updatedFields);
-    // setMembers(updatedFields);
   };
+
+  console.log(members);
+  
 
   return (
     <form onSubmit={handleSubmit} className={`test p-4 ${className}`}>
       <div className="form-inner">
         {fields.map((field) => (
-          <div className={`field-container ${field.label === "Password" ? `password-container` : ``}`} key={field.name}>
-            {field.label !== "" && (
+          <div
+            className={`field-container ${
+              field.label === "Password" ? `password-container` : ``
+            }`}
+            key={field.name}
+          >
+            {field.label && (
               <label htmlFor={field.name} className="form-label">
                 {field.label}
               </label>
@@ -97,7 +136,6 @@ const ReusableForm: React.FC<Props> = ({
                 id={field.name}
                 name={field.name}
                 placeholder={field.placeholder}
-                value={formData[field.name] || ""}
                 onChange={handleInputChange}
               />
             )}
@@ -107,7 +145,14 @@ const ReusableForm: React.FC<Props> = ({
                 className="btn grey-bg mt-3 py-1"
                 onClick={addNewMemberField}
               >
-                <img className="me-2" src={PlusIcon} width={14} height={14} alt="" />Add more members
+                <img
+                  className="me-2"
+                  src={PlusIcon}
+                  width={14}
+                  height={14}
+                  alt=""
+                />
+                Add more members
               </button>
             )}
           </div>
