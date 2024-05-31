@@ -47,10 +47,11 @@ const ViewAdmins: React.FC = () => {
     { id: 20202,  name: 'Jane Smith'},
     { id: 20203, name: 'Jane11 Smith'},
   ];
-  
+
   const [admin, setAdmin] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [reload , setReload] = useState<boolean>(false);
 
   // NOTE : useEffect for the UserDetails api
   useEffect(() => {
@@ -59,20 +60,23 @@ const ViewAdmins: React.FC = () => {
         const data = await getAdmins();
         console.log(data);
         setAdmin(data);
+        setReload(true);
       } catch (err:any) {
         console.log(err);
         setError(err.message);
       } finally {
         setLoading(false);
+        console.log(reload);
+
       }
     };
     fetchUserDetails();
-  }, []);
+  }, [reload]);
 
 
   return (
     <div className="test p-2">
-      {admin&&<DataTable columns={columns} data={admin} showActions={true} routes={{
+      {admin&&<DataTable id="adminId" columns={columns} data={admin} showActions={true} routes={{
         viewRoute: "ViewAdminProfile",
         deleteRoute: "DeleteAdmin"
       }} deleteText={"Are you sure you want to delete this admin?"} />}

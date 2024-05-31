@@ -17,7 +17,7 @@ const ViewUsers: React.FC = () => {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-
+  const [reload , setReload] = useState<boolean>(false);
   // NOTE : useEffect for the UserDetails api
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -30,10 +30,11 @@ const ViewUsers: React.FC = () => {
         setError(err.message);
       } finally {
         setLoading(false);
+        setReload(true);
       }
     };
     fetchUserDetails();
-  }, []);
+  }, [reload]);
 
 
   const columns = [
@@ -50,7 +51,7 @@ const ViewUsers: React.FC = () => {
 
   return (
     <div className="test p-2">
-      {user&&<DataTable columns={columns} data={user} showActions routes={{
+      {user&&<DataTable id="voterId" columns={columns} data={user} showActions routes={{
         viewRoute: "ViewUserProfile",
         deleteRoute: "DeleteUser"
       }} deleteText={"Are you sure you want to delete this user?"} />}
