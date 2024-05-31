@@ -30,7 +30,10 @@ const ViewCandidates: React.FC = () => {
 
   return (
     <div className="test p-2">
-      <DataTable columns={columns} data={data} showActions />
+      <DataTable columns={columns} data={data} showActions routes={{
+        viewRoute: "ViewCandidateProfile",
+        deleteRoute: ""
+      }} deleteText={"Are you sure you want to delete this candidate?"} />
       <div className="text-center">
         <Link to={`AddCandidate`} className="btn ">
           <img src={AddIcon} width={66} height={66} alt="" />

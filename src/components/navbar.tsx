@@ -1,12 +1,12 @@
-import React, { Component } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
 
-type Props = {};
+type NavbarProps = {};
 
-const Navbar: React.FC<Props> = () => {
+const Navbar: React.FC<NavbarProps> = () => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light sticky-top primary-bg secondry-color">
+    <nav className="navbar navbar-expand-lg navbar-light sticky-top primary-bg secondary-color">
       <div className="container-fluid d-flex justify-content-between p-2">
         <Link to={"/"} className="nav-link text-decoration-none">
           <h2>E-Voting</h2>
@@ -32,7 +32,7 @@ const Navbar: React.FC<Props> = () => {
                 Home
               </Link>
             </li>
-            <li className="nav-item secondry-bg fw-bold">
+            <li className="nav-item secondary-bg fw-bold">
               <Link
                 to={"/ManageElections/AddElection"}
                 className="nav-link text-decoration-none"

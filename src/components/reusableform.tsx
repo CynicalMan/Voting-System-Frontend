@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import "./styles/reusableform.css";
+import PlusIcon from "../assets/plus.png"
 
 type FormField = {
   name: string;
@@ -12,13 +14,19 @@ type Props = {
   fields: FormField[];
   onSubmit: (formData: { [key: string]: string }) => void;
   submitButtonText?: string;
+  memberList: boolean;
+  className: string;
 };
 
 const ReusableForm: React.FC<Props> = ({
-  fields,
+  fields: initialFields,
   onSubmit,
   submitButtonText = "Submit",
+  memberList = true,
+  className,
 }) => {
+  const [fields, setFields] = useState<FormField[]>(initialFields);
+  const [memberCount, setMemberCount] = useState<number>(2);
   const [formData, setFormData] = useState<{ [key: string]: string }>({});
 
   const handleInputChange = (
@@ -36,14 +44,33 @@ const ReusableForm: React.FC<Props> = ({
     onSubmit(formData);
   };
 
+  const addNewMemberField = () => {
+    const newField: FormField = {
+      name: `member ${fields.length - 2}`,
+      label: "",
+      type: "text",
+      placeholder: `Enter member ${fields.length - 2}`,
+    };
+    console.log(fields.length);
+
+    const updatedFields = [...fields];
+    updatedFields.splice(memberCount + 1, 0, newField);
+    setMemberCount(memberCount + 1);
+    console.log(updatedFields);
+
+    setFields(updatedFields);
+  };
+
   return (
-    <form onSubmit={handleSubmit} className="test p-2">
-      <div className="d-flex w-100 flex-wrap">
+    <form onSubmit={handleSubmit} className={`test p-4 ${className}`}>
+      <div className="form-inner">
         {fields.map((field) => (
-          <div className="mb-3 px-2 w-50" key={field.name}>
-            <label htmlFor={field.name} className="form-label">
-              {field.label}
-            </label>
+          <div className={`field-container ${field.label === "Password" ? `password-container` : ``}`} key={field.name}>
+            {field.label !== "" && (
+              <label htmlFor={field.name} className="form-label">
+                {field.label}
+              </label>
+            )}
             {field.type === "select" ? (
               <select
                 className="form-control"
@@ -72,11 +99,19 @@ const ReusableForm: React.FC<Props> = ({
                 onChange={handleInputChange}
               />
             )}
+            {memberList && field.name === `member ${memberCount}` && (
+              <button
+                type="button"
+                className="btn grey-bg mt-3 py-1"
+                onClick={addNewMemberField}
+              >
+                <img className="me-2" src={PlusIcon} width={14} height={14} alt="" />Add more members
+              </button>
+            )}
           </div>
         ))}
-
-        <div className="w-50 py-4 d-flex justify-content-center ">
-          <button type="submit" className="btn btn-primary">
+        <div className="submit-container">
+          <button type="submit" className="btn secondary-bg mt-3 py-1 px-4">
             {submitButtonText}
           </button>
         </div>

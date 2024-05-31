@@ -7,10 +7,11 @@ import Modal from "./modal";
 
 type DataListProps = {
   data: { [key: string]: any }[];
+  deleteText: string;
   className?: string;
 };
 
-const DataList: React.FC<DataListProps> = ({ data, className }) => {
+const DataList: React.FC<DataListProps> = ({ data,deleteText, className }) => {
   console.log(data, className);
 
   const [showModal, setShowModal] = useState(false);
@@ -46,7 +47,7 @@ const DataList: React.FC<DataListProps> = ({ data, className }) => {
               onClose={handleCloseModal}
               onSave={handleSaveChanges}
             >
-              <p className="fw-600 fs-5">Are you sure you want <br/> to delete this election?</p>
+              <p className="fw-600 fs-5 ">{deleteText}</p>
             </Modal>
           </div>
         </div>

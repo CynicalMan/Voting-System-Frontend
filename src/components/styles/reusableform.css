@@ -1,0 +1,46 @@
+.election-form *:hover {
+    background: unset;
+}
+
+.submit-container {
+    text-align: center;
+}
+
+.candidate-form .submit-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.candidate-form .form-inner,
+.admin-form .form-inner {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.candidate-form .field-container,
+.candidate-form .submit-container,
+.admin-form .field-container,
+.admin-form .submit-container {
+    width: 50%;
+    padding: 0 10px;
+}
+
+.field-container {
+    margin-bottom: 1em;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.field-container label {
+    margin-left: .5em;
+}
+
+.field-container.password-container {
+    width: 100%;
+}
+
+.field-container.password-container input[type="password"] {
+    width: 49%;
+}

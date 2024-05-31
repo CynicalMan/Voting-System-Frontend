@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import Profile from "../../components/profile";
 import SearchBar from "../../components/searchbar";
 import { Link } from "react-router-dom";
@@ -30,7 +30,7 @@ const MyProfile: React.FC<MyProfileProps> = () => {
       <div className="test py-2 pb-3">
         <Profile data={data} />
         <div className="text-center">
-          <Link to={`AddElection`} className="btn secondry-bg mt-3 py-1">
+          <Link to={`AddElection`} className="btn secondary-bg mt-3 py-1">
             <span>Edit</span> <img className="mb-1" src={EditIcon} width={16} height={16} alt="" />
           </Link>
         </div>

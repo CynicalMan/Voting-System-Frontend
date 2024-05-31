@@ -1,11 +1,17 @@
 import React, { Component } from "react";
 import Profile from "../../components/profile";
 import SearchBar from "../../components/searchbar";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 type ViewAdminProfileProps = {};
 
 const ViewAdminProfile: React.FC<ViewAdminProfileProps> = () => {
+
+  const navigate = useNavigate();
+
+  const handleBack = () => {
+    navigate(-1);
+  };
 
   const { id } = useParams<{ id: string }>();
   // const [admin, setAdmin] = useState<any>(null);
@@ -51,9 +57,12 @@ const ViewAdminProfile: React.FC<ViewAdminProfileProps> = () => {
       <div className="test py-2 pb-3">
         <Profile data={data} />
         <div className="text-center">
-          <Link to={`AddAdmin`} className="btn secondry-bg mt-3 py-1">
-            <span>Back</span> 
-          </Link>
+        <button
+            onClick={handleBack}
+            className="btn secondary-bg text-black"
+          >
+              Back
+          </button>
         </div>
       </div>
     </div>

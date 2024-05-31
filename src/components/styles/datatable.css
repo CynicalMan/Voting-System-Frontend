@@ -16,7 +16,6 @@
   border: #FFFFFF;
 }
 
-.table 
 
 .table thead th:first-child {
   border-top-left-radius: 25px;
@@ -27,3 +26,5 @@
   border-top-right-radius: 25px; 
   border-bottom-right-radius: 25px; 
 }
+
+

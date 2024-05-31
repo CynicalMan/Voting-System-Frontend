@@ -22,7 +22,7 @@ const AddCandidateForm: React.FC = () => {
     // Handle registration logic here
   };
 
-  return <ReusableForm fields={fields} onSubmit={handleRegistration} submitButtonText="Add" />;
+  return <ReusableForm fields={fields} onSubmit={handleRegistration} submitButtonText="Add" memberList={false} className={'candidate-form'} />;
 };
 
 export default AddCandidateForm;

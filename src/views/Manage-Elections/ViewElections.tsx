@@ -29,8 +29,6 @@
 //         </table> */}
 
 import { Link } from "react-router-dom";
-import DataTable from "../../components/datatable";
-import { useState } from "react";
 import DataList from "../../components/datalist";
 import parliament from "../../assets/elections/parliament.png";
 import ahly from "../../assets/elections/ahly.png";
@@ -38,16 +36,7 @@ import egypt from "../../assets/elections/egypt.png";
 import AddIcon from "../../assets/add.png";
 
 const ViewElections: React.FC = () => {
-  const columns = [
-    { header: "Name", accessor: "name" },
-    { header: "Email", accessor: "email" },
-    { header: "Role", accessor: "role" },
-  ];
-
-  const data = [
-    { name: "John Doe", email: "john@example.com", role: "Admin" },
-    { name: "Jane Smith", email: "jane@example.com", role: "User" },
-  ];
+  
 
   const listData = [
     {
@@ -73,7 +62,7 @@ const ViewElections: React.FC = () => {
 
   return (
     <div className="test ">
-      <DataList data={listData} />
+      <DataList data={listData} deleteText={`Are you sure you want \n to delete this election?`} />
       <div className="text-center">
         <Link to={`AddElection`} className="btn ">
           <img src={AddIcon} width={66} height={66} alt="" />

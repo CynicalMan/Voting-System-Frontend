@@ -10,7 +10,6 @@ const EditProfileForm: React.FC = () => {
 
   const handleRegistration = (formData: { [key: string]: string }) => {
     console.log('edit admin profile Data:', formData);
-    // Handle registration logic here
   };
 
   return <ReusableForm fields={fields} onSubmit={handleRegistration} submitButtonText="Register" />;

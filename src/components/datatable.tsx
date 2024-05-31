@@ -14,13 +14,18 @@ type DataTableProps = {
   columns: DataTableColumn[];
   data: { [key: string]: any }[];
   showActions: boolean;
+  routes: {
+    viewRoute : string,
+    deleteRoute: string
+  };
+  deleteText: string;
   className?: string;
 };
 
-const DataTable: React.FC<DataTableProps> = ({ columns, data,showActions = true, className }) => {
+const DataTable: React.FC<DataTableProps> = ({ columns, data,showActions = true,routes,deleteText, className }) => {
   const [showModal, setShowModal] = useState(false);
 
-  console.log(data);
+  console.log(data,routes);
   
 
   const handleOpenModal = () => setShowModal(true);
@@ -55,7 +60,7 @@ const DataTable: React.FC<DataTableProps> = ({ columns, data,showActions = true,
                 <td key={column.accessor}>{row[column.accessor]}</td>
               ))}
               {showActions && <div className="d-flex justify-content-center">
-                <Link to={`ViewAdminProfile/1`} className="btn ">
+                <Link to={`${routes.viewRoute}/1`} className="btn ">
                   <img src={ViewIcon} width={26} height={24} alt="" />
                 </Link>
                 <button onClick={handleOpenModal} className="btn">
@@ -67,7 +72,7 @@ const DataTable: React.FC<DataTableProps> = ({ columns, data,showActions = true,
                   onSave={handleSaveChanges}
                 >
                   <p className="fw-600 fs-5">
-                    Are you sure you want <br /> to delete this election?
+                    {deleteText}
                   </p>
                 </Modal>
               </div>}

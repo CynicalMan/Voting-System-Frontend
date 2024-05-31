@@ -30,7 +30,10 @@ const ViewUsers: React.FC = () => {
 
   return (
     <div className="test p-2">
-      <DataTable columns={columns} data={data} showActions />
+      <DataTable columns={columns} data={data} showActions routes={{
+        viewRoute: "ViewUserProfile",
+        deleteRoute: ""
+      }} deleteText={"Are you sure you want to delete this user?"} />
     </div>
   );
 };

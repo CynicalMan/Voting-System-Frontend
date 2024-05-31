@@ -3,9 +3,9 @@ import Profile from "../../components/profile";
 import SearchBar from "../../components/searchbar";
 import {  useNavigate, useParams } from "react-router-dom";
 
-type ViewUserProfileProps = {};
+type ViewCandidateProfileProps = {};
 
-const ViewUserProfile: React.FC<ViewUserProfileProps> = () => {
+const ViewCandidateProfile: React.FC<ViewCandidateProfileProps> = () => {
 
     const navigate = useNavigate();
 
@@ -67,4 +67,4 @@ const ViewUserProfile: React.FC<ViewUserProfileProps> = () => {
     );
 };
 
-export default ViewUserProfile;
+export default ViewCandidateProfile;

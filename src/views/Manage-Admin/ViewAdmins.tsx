@@ -59,7 +59,10 @@ const ViewAdmins: React.FC = () => {
 
   return (
     <div className="test p-2">
-      <DataTable columns={columns} data={data} />
+      <DataTable columns={columns} data={data} showActions={true} routes={{
+        viewRoute: "ViewAdminProfile",
+        deleteRoute: ""
+      }} deleteText={"Are you sure you want to delete this admin?"} />
       <div className="text-center">
         <Link to={`AddAdmin`} className="btn ">
           <img src={AddIcon} width={66} height={66} alt="" />

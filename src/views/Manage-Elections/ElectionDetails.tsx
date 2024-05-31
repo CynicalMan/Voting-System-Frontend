@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import ahly from "../../assets/elections/ahly.png";
 
 type ElectionDetailsProps = {};
 
 const ElectionDetails: React.FC<ElectionDetailsProps> = () => {
+
+  const navigate = useNavigate();
+
+  const handleBack = () => {
+    navigate(-1);
+  };
+
   const { id } = useParams<{ id: string }>();
   // const [election, setElection] = useState<any>(null);
   // const [loading, setLoading] = useState<boolean>(true);
@@ -47,34 +54,50 @@ const ElectionDetails: React.FC<ElectionDetailsProps> = () => {
   return (
     <div>
       {election ? (
-        <div>
-          <div className="">
-            <div className="">
+        <div className="test p-4">
+          <div className="d-flex">
+            <div className="data-image">
               <img src={election.image} alt="" />
             </div>
-            <div className="">
-              <h4 className="mb-2">{election.title}</h4>
-              <div className="">
-                {election.candidates.map((cand: { name: string | undefined; percentage: string; },index: number)=> (
-                  <div className="" key={index}>
-                  <p className="me-1">{cand.name}</p>
-                  <div style={{
-                    width: cand.percentage,
-                    height: "20px",
-                    background: "linear-gradient(to right, #FDE767, #F3B95F, #D04848)"
-                  }}></div>
-                </div>
-                ))}
+            <div className="w-100">
+              <h4 className="mb-3">{election.title}</h4>
+              <div className="w-75">
+                {election.candidates.map(
+                  (
+                    cand: { name: string | undefined; percentage: string },
+                    index: number
+                  ) => (
+                    <div className="d-flex " key={index}>
+                      <p className="w-40">{cand.name}</p>
+                      <div className="w-75 d-flex">
+                        <div
+                        className="me-2"
+                          style={{
+                            width: cand.percentage,
+                            height: "20px",
+                            background: "#D04848",
+                          }}
+                        ></div>
+                      <span style={{
+                        width: "1%"
+                      }}>{cand.percentage}</span>
+                      </div>
+                    </div>
+                  )
+                )}
               </div>
             </div>
           </div>
-          <div className="">
+          <div className="ms-3">
             <p>The election will end on: {election.endDate}</p>
           </div>
-          <div className="">
-            <Link to={`/ManageElections`} className="btn secondry-bg text-black">
+          <div className="text-center">
+            <button
+              onClick={handleBack}
+              className="btn secondary-bg text-black"
+            >
               Back
-            </Link>
+            </button>
           </div>
         </div>
       ) : (

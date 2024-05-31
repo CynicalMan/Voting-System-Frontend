@@ -1,10 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
-import Home from "../views/Home/Home";
+
 import ManageElections from "../views/Manage-Elections/ManageElections";
 import ManageCandidates from "../views/Manage-Candidates/ManageCandidates";
 import ManageUsers from "../views/Manage-Users/ManageUsers";
-import MyProfile from "../views/MyProfile/MyProfile";
-import NotFound from "../views/NotFound/NotFound";
+
 
 import App from "../App";
 import AddAdminForm from "../views/Manage-Admin/AddAdminForm";
@@ -19,6 +18,9 @@ import ViewUsers from "../views/Manage-Users/ViewUsers";
 import ViewCandidates from "../views/Manage-Candidates/ViewCandidates";
 import AddCandidateForm from "../views/Manage-Candidates/AddCandidateForm";
 import ViewAdminProfile from "../views/Manage-Admin/ViewAdminProfile";
+import Home from "../views/Home/home";
+import MyProfile from "../views/MyProfile/myprofile";
+import NotFound from "../views/NotFound/notFound";
 
 export const router = createBrowserRouter([
   {
@@ -72,6 +74,10 @@ export const router = createBrowserRouter([
           {
             path: "AddCandidate",
             element: <AddCandidateForm />,
+          },
+          {
+            path: "ViewCandidateProfile/:id",
+            element: <ViewAdminProfile />,
           },
         ],
       },
