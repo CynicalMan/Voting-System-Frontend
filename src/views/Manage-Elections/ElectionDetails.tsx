@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import ahly from "../../assets/elections/ahly.png";
+import { objectToArray } from "../../helper/helper";
 
 type ElectionDetailsProps = {};
 
@@ -22,14 +23,21 @@ const ElectionDetails: React.FC<ElectionDetailsProps> = () => {
   useEffect(() => {
     const fetchElectionDetails = async () => {
       try {
-        const response = await fetch(`/api/elections/${id}`);
+        const response = await fetch(`https://localhost:7285/api/Admin/GetCategoryById/${id}`);
         if (!response.ok) {
           throw new Error('Failed to fetch election details');
         }
+        
         const data = await response.json();
+        console.log(data);
         setElection(data);
+        console.log(election);
+        
+
       } catch (err:any) {
         setError(err.message);
+        console.log(err);
+        
       } finally {
         setLoading(false);
       }
@@ -57,12 +65,12 @@ const ElectionDetails: React.FC<ElectionDetailsProps> = () => {
         <div className="test p-4">
           <div className="d-flex">
             <div className="data-image">
-              <img src={election.image} alt="" />
+              <img src={election.CategoryLogo} alt="" />
             </div>
             <div className="w-100">
-              <h4 className="mb-3">{election.title}</h4>
+              <h4 className="mb-3">{election.name}</h4>
               <div className="w-75">
-                {election.candidates.map(
+                {election.candidateDtos!=null&&election.candidateDtos.map(
                   (
                     cand: { name: string | undefined; percentage: string },
                     index: number
@@ -89,7 +97,7 @@ const ElectionDetails: React.FC<ElectionDetailsProps> = () => {
             </div>
           </div>
           <div className="ms-3">
-            <p>The election will end on: {election.endDate}</p>
+            <p>The election will end on: {election.dateOfEndVoting}</p>
           </div>
           <div className="text-center">
             <button

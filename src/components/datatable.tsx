@@ -18,11 +18,12 @@ type DataTableProps = {
     viewRoute : string,
     deleteRoute: string
   };
+  id: string;
   deleteText: string;
   className?: string;
 };
 
-const DataTable: React.FC<DataTableProps> = ({ columns, data,showActions = true,routes,deleteText, className }) => {
+const DataTable: React.FC<DataTableProps> = ({ columns,id, data,showActions = true,routes,deleteText, className }) => {
 
   console.log(data,routes,columns);
   
@@ -36,10 +37,11 @@ const DataTable: React.FC<DataTableProps> = ({ columns, data,showActions = true,
   const handleSaveChanges = async (id: string) => {
     // Handle save logic here
     try {
-      const response = await fetch(`/api/Admin/${routes.deleteRoute}/${id}`, {
+      const response = await fetch(`https://localhost:7285/api/Admin/${routes.deleteRoute}/${id}`, {
         method: 'DELETE',
       });
-
+      console.log("removed");
+      
       if (!response.ok) {
         throw new Error("Failed to delete");
       }
@@ -77,7 +79,7 @@ const DataTable: React.FC<DataTableProps> = ({ columns, data,showActions = true,
                 <td key={column.accessor}>{row[column.accessor]}</td>
               ))}
               {showActions && <div className="d-flex justify-content-center">
-                <Link to={`${routes.viewRoute}/1`} className="btn ">
+                <Link to={`${routes.viewRoute}/${row[id]}`} className="btn ">
                   <img src={ViewIcon} width={26} height={24} alt="" />
                 </Link>
                 <button onClick={handleOpenModal} className="btn">
@@ -87,7 +89,8 @@ const DataTable: React.FC<DataTableProps> = ({ columns, data,showActions = true,
                   show={showModal}
                   onClose={handleCloseModal}
                   onSave={handleSaveChanges}
-                  deleteId={row["id"]}
+                  deleteId={row[id]}
+
                 >
                   <p className="fw-600 fs-5">
                     {deleteText}

@@ -35,6 +35,7 @@ const ReusableForm: React.FC<Props> = ({
     const { name, value } = event.target;
     setFormData({
       ...formData,
+      
       [name]: value,
     });
   };
