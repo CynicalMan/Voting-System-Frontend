@@ -28,7 +28,7 @@ const ReusableForm: React.FC<Props> = ({
   const [fields, setFields] = useState<FormField[]>(initialFields);
   const [memberCount, setMemberCount] = useState<number>(2);
   const [formData, setFormData] = useState<{ [key: string]: string }>({});
-
+  const [members , setMembers] = useState<{[key:string]:string}>({});
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -59,6 +59,7 @@ const ReusableForm: React.FC<Props> = ({
     console.log(updatedFields);
 
     setFields(updatedFields);
+    // setMembers(updatedFields);
   };
 
   return (

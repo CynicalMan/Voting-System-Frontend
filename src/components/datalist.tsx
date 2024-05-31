@@ -44,11 +44,11 @@ const DataList: React.FC<DataListProps> = ({ data, deleteText, className }) => {
       {data.map((row, index) => (
         <div className="data-item d-flex" key={index}>
           <div className="data-image">
-            <img src={row.image} alt="" />
+            <img src={row.logo} alt="" />
           </div>
           <div className="data-content">
-            <h4>{row.title}</h4>
-            <p>{row.candidateNum} Candidates</p>
+            <h4>{row.categoryName}</h4>
+            <p>{row.numberOfCandidates} Candidates</p>
           </div>
           <div className="data-actions d-flex flex-column">
             <Link to={`ElectionDetails/${row.id}`} className="btn ">
