@@ -1,8 +1,12 @@
 import React from 'react';
 import ReusableForm from '../../components/reusableform';
 import { postCandidate } from '../../helper/helper';
+import { useNavigate } from 'react-router-dom';
 
 const AddCandidateForm: React.FC = () => {
+
+  const navigate = useNavigate()
+
   const fields = [
     { name: 'Name', label: 'Name', type: 'text', placeholder: 'Enter new candidate Name.' },
     { name: 'LastName', label: 'LastName', type: 'text', placeholder: 'Enter new candidate Name.' },
@@ -30,11 +34,11 @@ const AddCandidateForm: React.FC = () => {
       console.log(formData);
       const data = await postCandidate(formData);
       console.log(data);
+      navigate('/ManageCandidates');
     } catch (error) {
       console.log(error);
     }
   };
-
 
   return <ReusableForm fields={fields} onSubmit={handleCandidate} submitButtonText="Add" memberList={false} className={'candidate-form'} />;
 };

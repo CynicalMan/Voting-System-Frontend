@@ -16,20 +16,7 @@ const ViewCandidates: React.FC = () => {
     { header: 'graduate', accessor: 'graduate' },
   ];
 
-  const data = [
-    { name: 'John Doe', qulification: 'john@example.com', role: 'Admin' },
-    { name: 'Jane Smith', qulification: 'jane@example.com', role: 'User' },
-  ];
 
-  const [showModal, setShowModal] = useState(false);
-
-  const handleOpenModal = () => setShowModal(true);
-  const handleCloseModal = () => setShowModal(false);
-  const handleSaveChanges = () => {
-    // Handle save logic here
-    console.log('Changes saved');
-    setShowModal(false);
-  };
 
   const [candidates, setCandidates] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
