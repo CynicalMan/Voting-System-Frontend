@@ -21,6 +21,7 @@ import ViewAdminProfile from "../views/Manage-Admin/ViewAdminProfile";
 import Home from "../views/Home/home";
 import MyProfile from "../views/MyProfile/myprofile";
 import NotFound from "../views/NotFound/notFound";
+import ViewCandidateProfile from "../views/Manage-Candidates/ViewCandidateProfile";
 
 export const router = createBrowserRouter([
   {
@@ -77,7 +78,7 @@ export const router = createBrowserRouter([
           },
           {
             path: "ViewCandidateProfile/:id",
-            element: <ViewAdminProfile />,
+            element: <ViewCandidateProfile />,
           },
         ],
       },

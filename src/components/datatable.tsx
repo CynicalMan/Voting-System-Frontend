@@ -74,6 +74,7 @@ const DataTable: React.FC<DataTableProps> = ({ columns,id, data,showActions = tr
         </thead>
         <tbody className="text-center secondary-bg secondary-color">
           {data.map((row, index) => (
+            
             <tr key={index}>
               {columns.map((column) => (
                 <td key={column.accessor}>{row[column.accessor]}</td>

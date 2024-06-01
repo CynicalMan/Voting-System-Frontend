@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Profile from "../../components/profile";
 import SearchBar from "../../components/searchbar";
 import {  useNavigate, useParams } from "react-router-dom";
+import { objectToArray } from "../../helper/helper";
 
 type ViewCandidateProfileProps = {};
 
@@ -23,14 +24,18 @@ const ViewCandidateProfile: React.FC<ViewCandidateProfileProps> = () => {
   useEffect(() => {
     const fetchAdminDetails = async () => {
       try {
-        const response = await fetch(`https://localhost:7285/api/Admin/GetAllCandidates/${id}`);
+        const response = await fetch(`https://localhost:7285/api/Admin/GetCandidateById/${id}`);
         if (!response.ok) {
           throw new Error('Failed to fetch Admin details');
+          
         }
         
         const data = await response.json();
         setAdmin(data);
+        setAdmin(objectToArray(data));
+        console.log(data);
       } catch (err:any) {
+        console.log(err);
         setError(err.message);
       } finally {
         setLoading(false);
@@ -40,21 +45,23 @@ const ViewCandidateProfile: React.FC<ViewCandidateProfileProps> = () => {
     fetchAdminDetails();
   }, [id]);
 
-    const data = [
-        { key: "Admin ID", value: "20202" },
-        { key: "Name", value: "Mostafa Mohamed" },
-        { key: "Birthday", value: "20 March 2000" },
-        { key: "Gender", value: "Male" },
-        { key: "City", value: "Giza" },
-        { key: "Email", value: "Mostafamohamed1@gmail.com" },
-    ];
+  console.log(id);
+  
 
-    console.log(id);
+    // const data = [
+    //     { key: "Admin ID", value: "20202" },
+    //     { key: "Name", value: "Mostafa Mohamed" },
+    //     { key: "Birthday", value: "20 March 2000" },
+    //     { key: "Gender", value: "Male" },
+    //     { key: "City", value: "Giza" },
+    //     { key: "Email", value: "Mostafamohamed1@gmail.com" },
+    // ];
 
+    // console.log(data);
     return (
         <div>
         <div className="test py-2 pb-3">
-            <Profile data={data} />
+            <Profile data={admin} />
             <div className="text-center">
             <button
                 onClick={handleBack}

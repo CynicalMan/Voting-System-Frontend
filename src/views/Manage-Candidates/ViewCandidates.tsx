@@ -45,7 +45,7 @@ const ViewCandidates: React.FC = () => {
 
   return (
     <div className="test p-2">
-      {candidates&&<DataTable id="fullName" columns={columns} data={candidates} showActions routes={{
+      {candidates&&<DataTable id="candidateId" columns={columns} data={candidates} showActions routes={{
         viewRoute: "ViewCandidateProfile",
         deleteRoute: "DeleteCandidate"
       }} deleteText={"Are you sure you want to delete this candidate?"} />}
