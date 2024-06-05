@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Modal from "./modal";
 import ViewIcon from "../assets/view.png";
 import DeleteIcon from "../assets/delete.png";
+import EditIcon from "../assets/edit.png"
 
 type DataTableColumn = {
   header: string;
@@ -16,14 +17,16 @@ type DataTableProps = {
   showActions: boolean;
   routes: {
     viewRoute : string,
-    deleteRoute: string
+    deleteRoute: string,
+    editRoute?: string;
   };
+  hasEdit: boolean;
   id: string;
   deleteText: string;
   className?: string;
 };
 
-const DataTable: React.FC<DataTableProps> = ({ columns,id, data,showActions = true,routes,deleteText, className }) => {
+const DataTable: React.FC<DataTableProps> = ({ columns,id, data,showActions = true,routes,deleteText,hasEdit = false, className }) => {
 
   console.log(data,routes,columns);
   
@@ -78,10 +81,13 @@ const DataTable: React.FC<DataTableProps> = ({ columns,id, data,showActions = tr
               {columns.map((column) => (
                 <td key={column.accessor}>{row[column.accessor]}</td>
               ))}
-              {showActions && <div className="d-flex justify-content-center">
+              {showActions &&<div className="d-flex justify-content-center">
                 <Link to={`${routes.viewRoute}/${row[id]}`} className="btn ">
                   <img src={ViewIcon} width={26} height={24} alt="" />
                 </Link>
+                {hasEdit &&  <Link to={`${routes.editRoute}/${row[id]}`} className="btn ">
+                  <img src={EditIcon} width={26} height={24} alt="" />
+                </Link>}
                 <button onClick={handleOpenModal} className="btn">
                   <img src={DeleteIcon} width={26} height={24} alt="" />
                 </button>

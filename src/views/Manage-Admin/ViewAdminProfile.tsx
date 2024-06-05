@@ -16,6 +16,7 @@ const ViewAdminProfile: React.FC<ViewAdminProfileProps> = () => {
 
   const { id } = useParams<{ id: string }>();
   const [admin, setAdmin] = useState<any>(null);
+  const [image, setImage] = useState<string>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -29,7 +30,9 @@ const ViewAdminProfile: React.FC<ViewAdminProfileProps> = () => {
           throw new Error('Failed to fetch Admin details');
         }
         const data = await response.json();
-        setAdmin(data);
+        console.log(data.imageProile);
+        
+        setImage(data.imageProile)
         setAdmin(objectToArray(data));
       } catch (err:any) {
         setError(err.message);
@@ -42,22 +45,15 @@ const ViewAdminProfile: React.FC<ViewAdminProfileProps> = () => {
   }, [id]);
 
 
-  // const data = [
-  //   { key: "Admin ID", value: "20202" },
-  //   { key: "Name", value: "Mostafa Mohamed" },
-  //   { key: "Birthday", value: "20 March 2000" },
-  //   { key: "Gender", value: "Male" },
-  //   { key: "City", value: "Giza" },
-  //   { key: "Email", value: "Mostafamohamed1@gmail.com" },
-  // ];
+  const adminWithoutImage = admin?.filter(k => k.key !== "imageProile")
 
-  console.log(id);
+  console.log(image);
   
 
   return (
     <div>
       <div className="test py-2 pb-3">
-        <Profile data={admin} />
+        <Profile data={adminWithoutImage} image={image} />
         <div className="text-center">
         <button
             onClick={handleBack}

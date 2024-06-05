@@ -2,7 +2,6 @@
 import { Link } from "react-router-dom";
 import DataTable from "../../components/datatable";
 import { useEffect, useState } from "react";
-import Modal from "../../components/modal";
 import AddIcon from "../../assets/add.png"
 import { getCandidates } from "../../helper/helper";
 
@@ -47,8 +46,9 @@ const ViewCandidates: React.FC = () => {
     <div className="test p-2">
       {candidates&&<DataTable id="fullName" columns={columns} data={candidates} showActions routes={{
         viewRoute: "ViewCandidateProfile",
-        deleteRoute: "DeleteCandidate"
-      }} deleteText={"Are you sure you want to delete this candidate?"} />}
+        deleteRoute: "DeleteCandidate",
+        editRoute: "EditCandidate"
+      }} deleteText={"Are you sure you want to delete this candidate?"} hasEdit={true} />}
       <div className="text-center">
         <Link to={`AddCandidate`} className="btn ">
           <img src={AddIcon} width={66} height={66} alt="" />

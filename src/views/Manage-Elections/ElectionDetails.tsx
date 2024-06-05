@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import ahly from "../../assets/elections/ahly.png";
-import { objectToArray } from "../../helper/helper";
+import { calculatePercentageFromVotes, objectToArray } from "../../helper/helper";
 
 type ElectionDetailsProps = {};
 
@@ -30,6 +30,10 @@ const ElectionDetails: React.FC<ElectionDetailsProps> = () => {
         
         const data = await response.json();
         console.log(data);
+        console.log(data.candidateDtos);
+        data.candidateDtos = calculatePercentageFromVotes(data.candidateDtos)
+        console.log(data.candidateDtos);
+        
         setElection(data);
         console.log(election);
         
@@ -47,17 +51,6 @@ const ElectionDetails: React.FC<ElectionDetailsProps> = () => {
   }, [id]);
 
   console.log(id);
-
-  // const election: any = {
-  //   image: ahly,
-  //   title: "Al-Ahly Club presidency elections.",
-  //   candidates: [
-  //     { name: "Mahmoud Al-Khatib", percentage: "83%" },
-  //     { name: "Khaled Suleiman", percentage: "12%" },
-  //     { name: "Tariq Qandil", percentage: "5%" },
-  //   ],
-  //   endDate: "25/5/2024",
-  // };
 
   return (
     <div>
@@ -88,7 +81,7 @@ const ElectionDetails: React.FC<ElectionDetailsProps> = () => {
                         ></div>
                       <span style={{
                         width: "1%"
-                      }}>{cand.percentage}</span>
+                      }}>{cand.percentage}%</span>
                       </div>
                     </div>
                   )

@@ -16,6 +16,7 @@ const ViewUserProfile: React.FC<ViewUserProfileProps> = () => {
 
     const { id } = useParams<{ id: string }>();
   const [admin, setAdmin] = useState<any>(null);
+  const [image, setImage] = useState<string>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -33,6 +34,7 @@ useEffect(() => {
             const data = await response.json();
             console.log(data);
             
+            setImage(data.imageProile)
             setAdmin(objectToArray(data));
         } catch (err:any) {
             console.log(err);
@@ -44,20 +46,13 @@ useEffect(() => {
     
     fetchAdminDetails();
 }, [id]);
-    // const data = [
-    //     { key: "Admin ID", value: "20" },
-    //     { key: "Name", value: "Mostafa" },
-    //     { key: "Birthday", value: "20 March 2000" },
-    //     { key: "Gender", value:"Male" },
-    //     { key: "City", value: "Giza" },
-    //     { key: "Email", value: "Mostafamohamed1@gmail.com" },
-    // ];
 
+    const adminWithoutImage = admin?.filter(k => k.key !== "imageProile")
 
     return (
         <div>
         <div className="test py-2 pb-3">
-            <Profile data={admin} />
+            <Profile data={adminWithoutImage} image={image} />
             <div className="text-center">
             <button
                 onClick={handleBack}

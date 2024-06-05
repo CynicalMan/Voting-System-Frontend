@@ -1,10 +1,39 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import Profile from './profile';
 
 type Props = {};
 
 const Sidebar: React.FC<Props> = () => {
+
+  const [image, setImage] = useState<string>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // NOTE : useEffect for the AdminDetails api
+  //TODO get id from localstorage
+  const id = "e45787fb-f279-4b28-b102-3ea305471a27";
+  useEffect(() => {
+    const fetchAdminDetails = async () => {
+      try {
+        const response = await fetch(`https://localhost:7285/api/Admin/GetAdminById/${id}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch Admin details');
+        }
+        const data = await response.json();
+        console.log(data.imageProile);
+        
+        setImage(data.imageProile)
+      } catch (err:any) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAdminDetails();
+  }, [id]);
 
   const routes = [
     { path: "/", label: "Home" },
@@ -12,7 +41,7 @@ const Sidebar: React.FC<Props> = () => {
     { path: "/ManageUsers", label: "Manage Users" },
     { path: "/ManageCandidates", label: "Manage Candidates" },
     { path: "/ManageAdmin", label: "Manage Admins" },
-    { path: "/MyProfile", label: "My Profile" },
+    { path: "/ManageProfile", label: "My Profile" },
     { path: "/logout", label: "Logout" }
   ];
 
@@ -25,11 +54,7 @@ const Sidebar: React.FC<Props> = () => {
 
   return (
     <div className="sidebar">
-      <div className='profile'>
-        <div className="profile-content">
-            <img src="/profile.png" alt="" />
-        </div>
-      </div>
+      <Profile image={image} />
       <nav className="nav flex-column">
         {routes.map((link) => (
           <Link

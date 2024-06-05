@@ -33,31 +33,9 @@ const ViewElections: React.FC = () => {
     };
 
     fetchElectionDetails();
-  },[reload]);
+  },[]);
 console.log(election);
 
-
-  // const listData = [
-  //   {
-  //     id: 1,
-  //     logo: ahly,
-  //     title: "Al-Ahly Club presidency elections.",
-  //     candidateNum: 3,
-  //   },
-  //   {
-  //     id: 2,
-  //     image: egypt,
-  //     title: "Presidential elections of the Arab Republic of Egypt",
-  //     candidateNum: 4,
-  //   },
-  //   {
-  //     id: 3,
-  //     image: parliament,
-  //     title: `Elections for speaker of the House 
-  //   of Representatives (Egypt)`,
-  //     candidateNum: 3,
-  //   },
-  // ];
 
   return (
     <div className="test ">

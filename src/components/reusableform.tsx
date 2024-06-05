@@ -1,22 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./styles/reusableform.css";
 import PlusIcon from "../assets/plus.png";
-import { objectToArray } from "../helper/helper";
 
-type FormField = {
+export type FormField = {
   name: string;
   label: string;
   type: string;
   placeholder?: string;
   options?: { value: string; label: string }[];
+  value: string;
 };
+
+export type EditForm =
+  | {
+      email: string;
+      password: string;
+      userName: string;
+      ssn: string;
+      gender: string;
+      firstName: string;
+      lastName: string;
+      address: string;
+      dateOfBirth: string;
+      imageCard: string;
+    }
+  | { [key: string]: string };
 
 type Props = {
   fields: FormField[];
   onSubmit: (formData: FormData) => void;
   submitButtonText?: string;
-  memberList: boolean;
+  memberList?: boolean;
+  isEditForm?: boolean;
   className: string;
+  initialData?: { [key: string]: string };
 };
 
 const ReusableForm: React.FC<Props> = ({
@@ -24,59 +41,93 @@ const ReusableForm: React.FC<Props> = ({
   onSubmit,
   submitButtonText = "Submit",
   memberList = true,
+  isEditForm = false,
   className,
+  initialData = {} as { [key: string]: string }, // Default initialData to an empty object
 }) => {
   const [fields, setFields] = useState<FormField[]>(initialFields);
   const [memberCount, setMemberCount] = useState<number>(2);
-  const [formData, setFormData] = useState<{ [key: string]: any }>({});
-  const [members, setMembers] = useState<{ [key: string]: any }>({});
+  const [formData, setFormData] = useState<{ [key: string]: string }>(
+    initialData
+  );
+  const [members, setMembers] = useState<string[]>([]);
+  const [postformValues, setPostFormValues] = useState<EditForm>();
+  const [formDataUrl, setFormDataUrl] = useState<string | null>(null);
 
+  console.log(initialData);
+  console.log(formData);
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value, files } = event.target;
-    console.log(value);
-    if (name.startsWith("member")) {
-      console.log(value);
-      setMembers({...members,[name]: value})
-    }
-      console.log(value);
-      
-      setFormData({
-        ...formData,
-        [name]: files ? files[0] : value,
-      });
-      console.log(formData);
-      
-    
-    console.log(members);
-    
-    const CandidatesId = {
-      CandidatesId: Object.values(members)
-    };
-
-    console.log(CandidatesId);
-    
-
-    setFormData({...formData,CandidatesId}) 
+    setFormData({
+      ...formData,
+      [name]: files ? files[0] : value,
+    });
     console.log(formData);
-    
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formDataToSend = new FormData();
+    const membersArr: string[] = [];
+    console.log(initialData);
+    const editForm: EditForm = {};
+
     Object.entries(formData).forEach(([key, value]) => {
-      formDataToSend.append(key, value);
+      console.log(key, value);
+
+      if (isEditForm) {
+        if (key === "imageProile") {
+          console.log(value);
+          editForm["imageCard"] = formData[key] || initialData[key];
+        } else if (key === "name") {
+          console.log(value);
+          editForm["userName"] = formData[key] || initialData[key];
+          editForm["firstName"] = formData[key] || initialData[key];
+          editForm["lastName"] = formData[key] || initialData[key];
+        } else if (key === "city") {
+          console.log(value);
+          editForm["address"] = formData[key] || initialData[key];
+        } else {
+          console.log(value);
+          console.log(key);
+          editForm[key] = formData[key] || initialData[key];
+        }
+        editForm["password"] = formData["password"];
+
+        console.log(editForm);
+
+        console.log(key, value);
+      }
+
+        if (key.startsWith("member")) {
+          console.log(key,value);
+          membersArr.push(value);
+        } else {
+          console.log(key, value);
+          formDataToSend.append(key, value);
+        }
     });
-    console.log(formDataToSend);
+
+    if (editForm) {
+      Object.entries(editForm).forEach(([key, value]) => {
+        console.log(key, value);
+        formDataToSend.append(key, value);
+      });
+    }
+
+    formDataToSend.append("CandidatesId", JSON.stringify(membersArr));
+
+    console.log(editForm);
+    console.log(formData);
     
+
+    console.log(formDataToSend.get("CandidatesId"));
+
     onSubmit(formDataToSend);
   };
-
-  console.log(formData);
-  
 
   const addNewMemberField = () => {
     const newField: FormField = {
@@ -84,18 +135,37 @@ const ReusableForm: React.FC<Props> = ({
       label: "",
       type: "text",
       placeholder: `Enter member ${memberCount + 1}`,
+      value: "",
     };
 
     const updatedFields = [...fields];
     updatedFields.splice(memberCount + 1, 0, newField);
     setMemberCount(memberCount + 1);
     console.log(updatedFields);
-    
+
     setFields(updatedFields);
   };
 
-  console.log(members);
-  
+  console.log(formData);
+  if (formData["imageProile"] && typeof formData["imageProile"] === "object") {
+    const reader = new FileReader();
+
+    const file: File = formData["imageProile"];
+
+    reader.onload = (e: ProgressEvent<FileReader>) => {
+      if (e.target && typeof e.target.result === "string") {
+        const base64String = e.target.result;
+        const dataUrl = `data:${file.type};base64,${
+          base64String.split(",")[1]
+        }`;
+        console.log("Data URL:", dataUrl);
+        setFormDataUrl(dataUrl);
+      }
+    };
+
+    reader.readAsDataURL(file);
+  }
+  const imageUrl = `data:image/png;base64,${initialData["imageProile"]}`;
 
   return (
     <form onSubmit={handleSubmit} className={`test p-4 ${className}`}>
@@ -117,7 +187,7 @@ const ReusableForm: React.FC<Props> = ({
                 className="form-control"
                 id={field.name}
                 name={field.name}
-                value={formData[field.name] || ""}
+                value={formData[field.name] || initialData[field.name] || ''}
                 onChange={handleInputChange}
               >
                 <option value="" disabled>
@@ -135,9 +205,13 @@ const ReusableForm: React.FC<Props> = ({
                 className="form-control"
                 id={field.name}
                 name={field.name}
+                defaultValue={initialData[field.name] || ""}
                 placeholder={field.placeholder}
                 onChange={handleInputChange}
               />
+            )}
+            {isEditForm && initialData && field.type === "file" && (
+              <img src={formDataUrl || imageUrl} width={200} height={200} />
             )}
             {memberList && field.name === `member ${memberCount}` && (
               <button

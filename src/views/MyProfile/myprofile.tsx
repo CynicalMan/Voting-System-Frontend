@@ -1,41 +1,55 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Profile from "../../components/profile";
-import SearchBar from "../../components/searchbar";
 import { Link } from "react-router-dom";
 import EditIcon from "../../assets/edit.png"
+import { objectToArray } from "../../helper/helper";
 
 type MyProfileProps = {};
 
 const MyProfile: React.FC<MyProfileProps> = () => {
 
+  const [admin, setAdmin] = useState<any>(null);
+  const [image, setImage] = useState<string>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const data = [
-    { key: "ID", value: "20202" },
-    { key: "Name", value: "Mostafa Mohamed" },
-    { key: "Birthday", value: "20 March 2000" },
-    { key: "Gender", value: "Male" },
-    { key: "City", value: "Giza" },
-    { key: "Email", value: "Mostafamohamed1@gmail.com" },
-  ];
+  // NOTE : useEffect for the AdminDetails api
+  //TODO get id from local storage
+  const id = "e45787fb-f279-4b28-b102-3ea305471a27";
+  useEffect(() => {
+    const fetchAdminDetails = async () => {
+      try {
+        const response = await fetch(`https://localhost:7285/api/Admin/GetAdminById/${id}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch Admin details');
+        }
+        const data = await response.json();
+        console.log(data.imageProile);
+        
+        setImage(data.imageProile)
+        setAdmin(objectToArray(data));
+      } catch (err:any) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAdminDetails();
+  }, [id]);
+
+  const adminWithoutImage = admin?.filter(k => k.key !== "imageProile")
+
 
   return (
-    <div>
-      <div className="my-3 mt-4">
-        <SearchBar
-          onSearch={function (query: string): void {
-            throw new Error("Function not implemented.");
-          }}
-        />
-      </div>
       <div className="test py-2 pb-3">
-        <Profile data={data} />
+        <Profile data={adminWithoutImage} image={image} />
         <div className="text-center">
-          <Link to={`AddElection`} className="btn secondary-bg mt-3 py-1">
+          <Link to={`EditProfile`} className="btn secondary-bg mt-3 py-1">
             <span>Edit</span> <img className="mb-1" src={EditIcon} width={16} height={16} alt="" />
           </Link>
         </div>
       </div>
-    </div>
   );
 };
 

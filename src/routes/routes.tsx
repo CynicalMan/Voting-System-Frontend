@@ -19,8 +19,11 @@ import ViewCandidates from "../views/Manage-Candidates/ViewCandidates";
 import AddCandidateForm from "../views/Manage-Candidates/AddCandidateForm";
 import ViewAdminProfile from "../views/Manage-Admin/ViewAdminProfile";
 import Home from "../views/Home/home";
-import MyProfile from "../views/MyProfile/myprofile";
 import NotFound from "../views/NotFound/notFound";
+import ManageProfile from "../views/MyProfile/ManageProfile";
+import MyProfile from "../views/MyProfile/MyProfile";
+import ViewCandidateProfile from "../views/Manage-Candidates/ViewCandidateProfile";
+import EditCandidateForm from "../views/Manage-Candidates/EditCandidateForm";
 
 export const router = createBrowserRouter([
   {
@@ -77,7 +80,11 @@ export const router = createBrowserRouter([
           },
           {
             path: "ViewCandidateProfile/:id",
-            element: <ViewAdminProfile />,
+            element: <ViewCandidateProfile />,
+          },
+          {
+            path: "EditCandidate/:id",
+            element: <EditCandidateForm />,
           },
         ],
       },
@@ -100,9 +107,13 @@ export const router = createBrowserRouter([
         ],
       },
       {
-        path: "/MyProfile",
-        element: <MyProfile />,
+        path: "/ManageProfile",
+        element: <ManageProfile />,
         children: [
+          {
+            index: true,
+            element: <MyProfile/>
+          },
           {
             path: "EditProfile",
             element: <EditProfileForm />,

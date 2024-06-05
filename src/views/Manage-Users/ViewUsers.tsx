@@ -8,12 +8,6 @@ import { getUsers } from "../../helper/helper";
 
 const ViewUsers: React.FC = () => {
 
-  const data = [
-    { name: 'User 1', elections: 'Election name', id: '222' },
-    { name: 'User 2', elections: 'Election name', id: '222' },
-  ];
-
-
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -43,18 +37,13 @@ const ViewUsers: React.FC = () => {
     { header: 'National ID(SSN)', accessor: 'ssn' },
   ];
 
-  // const data = [
-  //   { name: 'User 1', elections: 'Election name', id: 'User’s SSN' },
-  //   { name: 'User 2', elections: 'Election name', id: 'User’s SSN' },
-  // ];
-
 
   return (
     <div className="test p-2">
       {user&&<DataTable id="voterId" columns={columns} data={user} showActions routes={{
         viewRoute: "ViewUserProfile",
         deleteRoute: "DeleteUser"
-      }} deleteText={"Are you sure you want to delete this user?"} />}
+      }} deleteText={"Are you sure you want to delete this user?"} hasEdit={false} />}
     </div>
   );
 };
