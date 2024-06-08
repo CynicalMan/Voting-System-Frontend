@@ -17,14 +17,14 @@ export type EditForm =
       password: string;
       userName: string;
       ssn: string;
-      gender: string;
+      gender: number;
       firstName: string;
       lastName: string;
       address: string;
       dateOfBirth: string;
       imageCard: string;
     }
-  | { [key: string]: string };
+  | { [key: string]: any };
 
 type Props = {
   fields: FormField[];
@@ -56,6 +56,8 @@ const ReusableForm: React.FC<Props> = ({
 
   console.log(initialData);
   console.log(formData);
+  console.log("q");
+  
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -73,11 +75,23 @@ const ReusableForm: React.FC<Props> = ({
     const formDataToSend = new FormData();
     const membersArr: string[] = [];
     console.log(initialData);
-    const editForm: EditForm = {};
+    const editForm = {
+      email: "",
+      password: "",
+      userName: "",
+      ssn: "",
+      gender: '',
+      firstName: "",
+      lastName: "",
+      address: "",
+      dateOfBirth: "",
+      imageCard: "",
+    };
 
     Object.entries(formData).forEach(([key, value]) => {
       console.log(key, value);
-
+      console.log(editForm);
+      
       if (isEditForm) {
         if (key === "imageProile") {
           console.log(value);
@@ -90,18 +104,28 @@ const ReusableForm: React.FC<Props> = ({
         } else if (key === "city") {
           console.log(value);
           editForm["address"] = formData[key] || initialData[key];
-        } else {
+        } else if (key === "gender") {
           console.log(value);
-          console.log(key);
-          editForm[key] = formData[key] || initialData[key];
-        }
+          editForm["gender"] = formData[key] || initialData[key] === "Male" ? '0' : '1' ;
+        } 
+        // else {
+        //   console.log(value);
+        //   console.log(key);
+        //   editForm[key] = formData[key] || initialData[key];
+        // }
         editForm["password"] = formData["password"];
+        console.log(initialData["email"]);
+        
+        editForm["email"] = formData["email"] || initialData["email"];
+        console.log(editForm["email"]);
+        
+        editForm["dateOfBirth"] = formData["dateOfBirth"] || initialData["dateOfBirth"];
+        editForm["ssn"] = formData["ssn"] || initialData["ssn"];
 
         console.log(editForm);
 
         console.log(key, value);
-      }
-
+      }else{
         if (key.startsWith("member")) {
           console.log(key,value);
           membersArr.push(value);
@@ -109,8 +133,11 @@ const ReusableForm: React.FC<Props> = ({
           console.log(key, value);
           formDataToSend.append(key, value);
         }
+      } 
     });
 
+    console.log(editForm);
+    
     if (editForm) {
       Object.entries(editForm).forEach(([key, value]) => {
         console.log(key, value);
@@ -118,13 +145,16 @@ const ReusableForm: React.FC<Props> = ({
       });
     }
 
-    formDataToSend.append("CandidatesId", JSON.stringify(membersArr));
+    membersArr.forEach((member, index) => {
+      formDataToSend.append(`CandidatesId[${index}]`, member);
+    });
 
     console.log(editForm);
     console.log(formData);
     
 
     console.log(formDataToSend.get("CandidatesId"));
+    console.log(formDataToSend.get("SSN"));
 
     onSubmit(formDataToSend);
   };

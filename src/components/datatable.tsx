@@ -1,10 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import "./styles/datatable.css";
-import { Link } from "react-router-dom";
-import Modal from "./modal";
-import ViewIcon from "../assets/view.png";
-import DeleteIcon from "../assets/delete.png";
-import EditIcon from "../assets/edit.png"
+import DataTableItem from "../components/datatableitem";
 
 type DataTableColumn = {
   header: string;
@@ -16,53 +12,37 @@ type DataTableProps = {
   data: { [key: string]: any }[];
   showActions: boolean;
   routes: {
-    viewRoute : string,
-    deleteRoute: string,
+    viewRoute: string;
+    deleteRoute: string;
     editRoute?: string;
   };
   hasEdit: boolean;
   id: string;
+  deleteId?:string;
   deleteText: string;
   className?: string;
 };
 
-const DataTable: React.FC<DataTableProps> = ({ columns,id, data,showActions = true,routes,deleteText,hasEdit = false, className }) => {
+const DataTable: React.FC<DataTableProps> = ({
+  columns,
+  id,
+  data,
+  showActions = true,
+  routes,
+  deleteText,
+  hasEdit = false,
+  className,
+  deleteId
+}) => {
+  const [reload, setReload] = React.useState<boolean>(false);
 
-  console.log(data,routes,columns);
-  
-
-  const [showModal, setShowModal] = useState(false);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleOpenModal = () => setShowModal(true);
-  const handleCloseModal = () => setShowModal(false);
-  const handleSaveChanges = async (id: string) => {
-    // Handle save logic here
-    try {
-      const response = await fetch(`https://localhost:7285/api/Admin/${routes.deleteRoute}/${id}`, {
-        method: 'DELETE',
-      });
-      console.log("removed");
-      
-      if (!response.ok) {
-        throw new Error("Failed to delete");
-      }
-      console.log("deleted");
-    } catch (err: any) {
-      setError(err.message);
-      console.log(error);
-    } finally {
-      setLoading(false);
-      setShowModal(false);
-    }
+  const handleReload = () => {
+    setReload(!reload);
   };
 
   return (
-    <div className="table-responsive ">
-      <table
-        className={`table table-bordered table-hover table-sm  ${className}`}
-      >
+    <div className="table-responsive">
+      <table className={`table table-bordered table-hover table-sm ${className}`}>
         <thead className="table-header text-black">
           <tr>
             {columns.map((column) => (
@@ -70,40 +50,27 @@ const DataTable: React.FC<DataTableProps> = ({ columns,id, data,showActions = tr
                 {column.header}
               </th>
             ))}
-            {showActions && <th className="text-center" key={"Actions"}>
-              Actions
-            </th>}
+            {showActions && (
+              <th className="text-center" key={"Actions"}>
+                Actions
+              </th>
+            )}
           </tr>
         </thead>
         <tbody className="text-center secondary-bg secondary-color">
           {data.map((row, index) => (
-            <tr key={index}>
-              {columns.map((column) => (
-                <td key={column.accessor}>{row[column.accessor]}</td>
-              ))}
-              {showActions &&<div className="d-flex justify-content-center">
-                <Link to={`${routes.viewRoute}/${row[id]}`} className="btn ">
-                  <img src={ViewIcon} width={26} height={24} alt="" />
-                </Link>
-                {hasEdit &&  <Link to={`${routes.editRoute}/${row[id]}`} className="btn ">
-                  <img src={EditIcon} width={26} height={24} alt="" />
-                </Link>}
-                <button onClick={handleOpenModal} className="btn">
-                  <img src={DeleteIcon} width={26} height={24} alt="" />
-                </button>
-                <Modal
-                  show={showModal}
-                  onClose={handleCloseModal}
-                  onSave={handleSaveChanges}
-                  deleteId={row[id]}
-
-                >
-                  <p className="fw-600 fs-5">
-                    {deleteText}
-                  </p>
-                </Modal>
-              </div>}
-            </tr>
+            <DataTableItem
+              key={index}
+              row={row}
+              columns={columns}
+              id={id}
+              deleteId={deleteId}
+              routes={routes}
+              deleteText={deleteText}
+              showActions={showActions}
+              hasEdit={hasEdit}
+              onReload={handleReload}
+            />
           ))}
         </tbody>
       </table>

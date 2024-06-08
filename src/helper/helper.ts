@@ -90,10 +90,13 @@ export const getCandidateAllPosts = async () => {
   }
 };
 
-export const getCandidate = async (id:any) => {
+export const getCandidate = async (id:string) => {
   try {
+    console.log(id.split(" ")[0]);
+    const nameId = id.split(" ")[0]
+    
     const response = await fetch(
-      `https://localhost:7285/api/Admin/GetCategoryById/${id}`
+      `https://localhost:7285/api/Admin/GetAllCandidates?name=${nameId}`
     );
     const results = await response.json();
     console.log(results);
@@ -132,18 +135,67 @@ export const getAdmin = async (id : any) => {
   }
 };
 
+export const getUser = async (token: string) => {
+  try {
+    const response = await  axios.get(
+      "https://localhost:7285/api/Account/Profile",
+      {
+        headers: {
+          Authorization: `bearer ${token}`,  
+        }
+      }
+    );
+    const results = await response.data;
+    console.log(results);
+    return results;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
 
-export const putAdmin = async (userData: any) => {
-  console.log(userData);
+export const getVotings = async (token: string) => {
+  try {
+    const response = await  axios.get(
+      "https://localhost:7285/api/Voter/ManageElection/ManageElection",
+      {
+        headers: {
+          Authorization: `bearer ${token}`,  
+        }
+      }
+    );
+    const results = await response.data;
+    console.log(results);
+    return results;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
+
+
+export const putAdmin = async (userData: any, token: string) => {
+  
+  console.log(token);
   const orderData = userData;
   console.log(orderData);
+  console.log(token);
   const response = await axios.put(
     "https://localhost:7285/api/Account/UpdateProfile",
-    orderData
+    orderData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `bearer ${token}`,  
+      }
+    }
   );
   console.log(response);
   return response;
 };
+
+
 
 
 interface KeyValue {
@@ -157,15 +209,15 @@ export const objectToArray = <T extends Record<string, any>>(
   return Object.entries(obj).map(([key, value]) => ({ key, value }));
 };
 
-export function base64ToImage(base64String: string, fileName: string): Promise<HTMLImageElement> {
-  return new Promise((resolve, reject) => {
-    const image = new Image();
-    image.onload = () => resolve(image);
-    image.onerror = reject;
-    image.src = `data:image/png;base64,${base64String}`;
-    image.alt = fileName; // Set alt attribute if needed
-  });
-}
+export const formatDate = (dateString: string): string => {
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+};
+
 
 export function calculatePercentageFromVotes(candidates: any[]){
   console.log(candidates);

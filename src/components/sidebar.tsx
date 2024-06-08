@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Profile from './profile';
+import { getAuthUser } from '../../localStorage';
 
 type Props = {};
 
@@ -12,8 +13,9 @@ const Sidebar: React.FC<Props> = () => {
   const [error, setError] = useState<string | null>(null);
 
   // NOTE : useEffect for the AdminDetails api
-  //TODO get id from localstorage
-  const id = "e45787fb-f279-4b28-b102-3ea305471a27";
+  const user = getAuthUser()
+  console.log(user);
+  const id : string = user.id
   useEffect(() => {
     const fetchAdminDetails = async () => {
       try {
@@ -36,12 +38,12 @@ const Sidebar: React.FC<Props> = () => {
   }, [id]);
 
   const routes = [
-    { path: "/", label: "Home" },
-    { path: "/ManageElections", label: "Manage Elections" },
-    { path: "/ManageUsers", label: "Manage Users" },
-    { path: "/ManageCandidates", label: "Manage Candidates" },
-    { path: "/ManageAdmin", label: "Manage Admins" },
-    { path: "/ManageProfile", label: "My Profile" },
+    { path: "/Dashboard", label: "Home" },
+    { path: "/Dashboard/ManageElections", label: "Manage Elections" },
+    { path: "/Dashboard/ManageUsers", label: "Manage Users" },
+    { path: "/Dashboard/ManageCandidates", label: "Manage Candidates" },
+    { path: "/Dashboard/ManageAdmin", label: "Manage Admins" },
+    { path: "/Dashboard/ManageProfile", label: "My Profile" },
     { path: "/logout", label: "Logout" }
   ];
 

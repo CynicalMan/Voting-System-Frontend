@@ -1,130 +1,207 @@
+// src/router/index.tsx
+
 import { createBrowserRouter } from "react-router-dom";
-
-import ManageElections from "../views/Manage-Elections/ManageElections";
-import ManageCandidates from "../views/Manage-Candidates/ManageCandidates";
-import ManageUsers from "../views/Manage-Users/ManageUsers";
-
-
+import Dashboard from "../Dashboard";
+import AdminAuth from "../middleware/AdminAuth";
+import Home from "../views/Dashboard/Home/home";
+import AddElectionForm from "../views/Dashboard/Manage-Elections/AddElectionForm";
+import ElectionDetails from "../views/Dashboard/Manage-Elections/ElectionDetails";
+import ManageElections from "../views/Dashboard/Manage-Elections/ManageElections";
+import ViewElections from "../views/Dashboard/Manage-Elections/ViewElections";
+import ManageUsers from "../views/Dashboard/Manage-Users/ManageUsers";
+import Login from "../views/Main/login/Login";
+import Register from "../views/Main/register/Register";
+import ViewUsers from "../views/Dashboard/Manage-Users/ViewUsers";
+import ViewUserProfile from "../views/Dashboard/Manage-Users/ViewUserProfile";
+import ViewCandidates from "../views/Dashboard/Manage-Candidates/ViewCandidates";
+import ManageCandidates from "../views/Dashboard/Manage-Candidates/ManageCandidates";
+import EditCandidateForm from "../views/Dashboard/Manage-Candidates/EditCandidateForm";
+import ViewCandidateProfile from "../views/Dashboard/Manage-Candidates/ViewCandidateProfile";
+import AddCandidateForm from "../views/Dashboard/Manage-Candidates/AddCandidateForm";
+import ManageAdmin from "../views/Dashboard/Manage-Admin/ManageAdmin";
+import ViewAdmins from "../views/Dashboard/Manage-Admin/ViewAdmins";
+import AddAdminForm from "../views/Dashboard/Manage-Admin/AddAdminForm";
+import ViewAdminProfile from "../views/Dashboard/Manage-Admin/ViewAdminProfile";
 import App from "../App";
-import AddAdminForm from "../views/Manage-Admin/AddAdminForm";
-import EditProfileForm from "../views/MyProfile/EditProfileForm";
-import ManageAdmin from "../views/Manage-Admin/ManageAdmin";
-import ViewAdmins from "../views/Manage-Admin/ViewAdmins";
-import ViewElections from "../views/Manage-Elections/ViewElections";
-import AddElectionForm from "../views/Manage-Elections/AddElectionForm";
-import ElectionDetails from "../views/Manage-Elections/ElectionDetails";
-import ViewUserProfile from "../views/Manage-Users/ViewUserProfile";
-import ViewUsers from "../views/Manage-Users/ViewUsers";
-import ViewCandidates from "../views/Manage-Candidates/ViewCandidates";
-import AddCandidateForm from "../views/Manage-Candidates/AddCandidateForm";
-import ViewAdminProfile from "../views/Manage-Admin/ViewAdminProfile";
-import Home from "../views/Home/home";
-import NotFound from "../views/NotFound/notFound";
-import ManageProfile from "../views/MyProfile/ManageProfile";
-import MyProfile from "../views/MyProfile/MyProfile";
-import ViewCandidateProfile from "../views/Manage-Candidates/ViewCandidateProfile";
-import EditCandidateForm from "../views/Manage-Candidates/EditCandidateForm";
+import UserAuth from "../middleware/UserAuth";
+import Logout from "../views/Dashboard/Logout/Logout";
+import EditDashProfileForm from "../views/Dashboard/MyProfile/EditDashProfileForm";
+import ManageDashProfile from "../views/Dashboard/MyProfile/ManageDashProfile";
+import MyDashProfile from "../views/Dashboard/MyProfile/MyDashProfile";
+import CandidateProfile from "../views/Main/ManageVote/candidate-profile/CandidateProfile";
+import ManageVote from "../views/Main/ManageVote/ManageVote";
+import VotePage from "../views/Main/ManageVote/vote/VotePage";
+import ManageProfile from "../views/Main/profile/ManageProfile";
+import MyProfile from "../views/Main/profile/MyProfile";
+import VotingPage from "../views/Main/voting/Voting";
+import VotingResults from "../views/Main/ManageVote/votingResult/VotingResults";
+import NotFound from "../views/NotFound/NotFound";
+import Update from "../views/Main/update/Update";
+import EditProfileForm from "../views/Main/profile/EditProfileForm";
+
 
 export const router = createBrowserRouter([
   {
-    path: "/",
-    element: <App />,
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
+  },
+  {
+    element: <AdminAuth />,
+    children: [
+      {
+        path: "Dashboard",
+        element: <Dashboard />,
+        children: [
+          {
+            index: true,
+            element: <Home />,
+          },
+          {
+            path: "ManageElections",
+            element: <ManageElections />,
+            children: [
+              {
+                index: true,
+                element: <ViewElections />,
+              },
+              {
+                path: "AddElection",
+                element: <AddElectionForm />,
+              },
+              {
+                path: "ElectionDetails/:id",
+                element: <ElectionDetails />,
+              },
+            ],
+          },
+          {
+            path: "ManageUsers",
+            element: <ManageUsers />,
+            children: [
+              {
+                index: true,
+                element: <ViewUsers />,
+              },
+              {
+                path: "ViewUserProfile/:id",
+                element: <ViewUserProfile />,
+              },
+            ],
+          },
+          {
+            path: "ManageCandidates",
+            element: <ManageCandidates />,
+            children: [
+              {
+                index: true,
+                element: <ViewCandidates />,
+              },
+              {
+                path: "AddCandidate",
+                element: <AddCandidateForm />,
+              },
+              {
+                path: "ViewCandidateProfile/:id",
+                element: <ViewCandidateProfile />,
+              },
+              {
+                path: "EditCandidate/:id",
+                element: <EditCandidateForm />,
+              },
+            ],
+          },
+          {
+            path: "ManageAdmin",
+            element: <ManageAdmin />,
+            children: [
+              {
+                index: true,
+                element: <ViewAdmins />,
+              },
+              {
+                path: "AddAdmin",
+                element: <AddAdminForm />,
+              },
+              {
+                path: "ViewAdminProfile/:id",
+                element: <ViewAdminProfile />,
+              },
+            ],
+          },
+          {
+            path: "ManageProfile",
+            element: <ManageDashProfile />,
+            children: [
+              {
+                index: true,
+                element: <MyDashProfile />,
+              },
+              {
+                path: "EditProfile",
+                element: <EditDashProfileForm />,
+              },
+            ],
+          },
+        ],
+      },
+    ]
+  },
+  {
+    element: <UserAuth />,
     children: [
       {
         path: "/",
-        element: <Home />,
-      },
-      {
-        path: "/ManageElections",
-        element: <ManageElections />,
+        element: <App />,
         children: [
           {
             index: true,
-            element: <ViewElections />,
+            element: <VotingPage />,
           },
           {
-            path: "AddElection",
-            element: <AddElectionForm />,
+            path: "vote",
+            element: <ManageVote />,
+            children: [
+              {
+                index: true,
+                element: <VotePage />
+              },
+              {
+                path: "CandidateProfile",
+                element: <CandidateProfile />
+              },
+              {
+                path: "VotingResult",
+                element: <VotingResults />,
+              },
+            ]
           },
           {
-            path: "ElectionDetails/:id",
-            element: <ElectionDetails />,
-          },
-        ],
-      },
-      {
-        path: "/ManageUsers",
-        element: <ManageUsers />,
-        children: [
-          {
-            index: true,
-            element: <ViewUsers />,
-          },
-          {
-            path: "ViewUserProfile/:id",
-            element: <ViewUserProfile />,
-          },
-        ],
-      },
-      {
-        path: "/ManageCandidates",
-        element: <ManageCandidates />,
-        children: [
-          {
-            index: true,
-            element: <ViewCandidates />,
-          },
-          {
-            path: "AddCandidate",
-            element: <AddCandidateForm />,
-          },
-          {
-            path: "ViewCandidateProfile/:id",
-            element: <ViewCandidateProfile />,
-          },
-          {
-            path: "EditCandidate/:id",
-            element: <EditCandidateForm />,
-          },
-        ],
-      },
-      {
-        path: "/ManageAdmin",
-        element: <ManageAdmin />,
-        children: [
-          {
-            index: true,
-            element: <ViewAdmins />,
-          },
-          {
-            path: "AddAdmin",
-            element: <AddAdminForm />,
-          },
-          {
-            path: "ViewAdminProfile/:id",
-            element: <ViewAdminProfile />,
-          },
-        ],
-      },
-      {
-        path: "/ManageProfile",
-        element: <ManageProfile />,
-        children: [
-          {
-            index: true,
-            element: <MyProfile/>
-          },
-          {
-            path: "EditProfile",
-            element: <EditProfileForm />,
+            path: "ManageProfile",
+            element: <ManageProfile />,
+            children: [
+              {
+                index: true,
+                element: <MyProfile />,
+              },
+              {
+                path: "EditProfile",
+                element: <EditProfileForm />,
+              },
+            ],
           },
         ],
       },
     ],
   },
   {
-    // represents the wild card for any wrong
-    // path
+    path: "/logout",
+    element: <Logout />,
+  },
+  {
     path: "*",
     element: <NotFound />,
   },

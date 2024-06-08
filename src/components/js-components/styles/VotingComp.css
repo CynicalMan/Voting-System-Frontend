@@ -1,0 +1,44 @@
+.color-body-font {
+    background-color: hsl(0, 0%, 100%);
+    height: 0px;
+    padding: 0px;
+    font-size: 20px;
+    padding-left: 50px;
+    margin: auto;
+    width: 100%;
+}
+
+.font {
+    font-family: "almarai,sans-sarif";
+}
+
+/* .card {
+    flex-direction:row; 
+    display:flex;
+    align-items:  center;
+    height: 120px;  
+  } */
+.img-item {
+    width: 60px;
+    height: 70px;
+    border-radius: 10px;
+}
+
+.item-description {
+    color: black;
+    font-size: 18px;
+    right: 200px;
+    letter-spacing: 0px;
+    line-height: 20px;
+}
+
+.item-candidate {
+    color: #23b723;
+}
+
+.parent {
+    display: flex;
+    width: 50%;
+    height: 200px;
+    margin: 10px;
+}

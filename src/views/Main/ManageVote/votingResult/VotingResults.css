@@ -1,0 +1,70 @@
+.voting-results {
+    font-family: Arial, sans-serif;
+}
+
+.title {
+    font-size: 2rem;
+    margin-top: 1rem;
+}
+
+.card {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 55%;
+    margin: 20px auto;
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+}
+
+.club-logo {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    border-radius: 50%;
+}
+
+.card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.card-body {
+    margin-top: 10px;
+}
+
+.candidate {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.candidate-name {
+    flex: 1;
+    font-weight: bold;
+}
+
+.bar {
+    flex: 3;
+    height: 10px;
+    background-color: #dcdcdc;
+    border-radius: 5px;
+    margin: 0 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.fill {
+    height: 100%;
+    border-radius: 5px;
+}
+
+.percentage {
+    flex: 0.5;
+    text-align: right;
+    font-weight: bold;
+}

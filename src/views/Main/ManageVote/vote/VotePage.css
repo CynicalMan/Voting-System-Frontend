@@ -1,0 +1,56 @@
+.vote-page {
+    font-family: Arial, sans-serif;
+}
+
+.main-vote-title{  
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 64px;
+    font-weight: 400;
+    font-family: Newsreader;
+}
+
+
+.election-vote-card {
+    background-color: #FAFAF5;
+    border: 1px solid #e0e0e0;
+    border-radius: 24px;
+    padding: 20px;
+    display: flex;
+}
+
+.election-vote-details h3{
+    font-weight: 600;
+    font-size: 40px;
+}
+
+.election-vote-details p{
+    font-weight: 600;
+    color: #426B1F;
+}
+.election-details h3 {
+    margin: 0 0 10px;
+}
+
+.election-details p {
+    margin: 0 0 20px;
+    color: green;
+}
+
+.candidates label {
+    display: block;
+    margin: 10px 0;
+}
+
+.vote-button {
+    background-color: #679436;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.vote-button:hover {
+    background-color: #4a6e2e;
+}

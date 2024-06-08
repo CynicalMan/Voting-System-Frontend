@@ -13,6 +13,7 @@ const Profile: React.FC<ProfileProps> = ({image,data}) => {
   
   console.log(image);
   
+  
 
   return (
     <div className=" w-50 m-auto ">
