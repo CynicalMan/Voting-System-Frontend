@@ -57,7 +57,7 @@ const ElectionDetails: React.FC<ElectionDetailsProps> = () => {
         <div className="test p-4">
           <div className="d-flex">
             <div className="data-image">
-              <img src={election.CategoryLogo} alt="" />
+              <img src={`data:image/png;base64,${election.categoryLogo}`} alt="" />
             </div>
             <div className="w-100">
               <h4 className="mb-3">{election.name}</h4>

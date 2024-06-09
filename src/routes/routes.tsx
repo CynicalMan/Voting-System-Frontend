@@ -39,7 +39,6 @@ import NotFound from "../views/NotFound/NotFound";
 import Update from "../views/Main/update/Update";
 import EditProfileForm from "../views/Main/profile/EditProfileForm";
 
-
 export const router = createBrowserRouter([
   {
     path: "/login",
@@ -148,7 +147,7 @@ export const router = createBrowserRouter([
           },
         ],
       },
-    ]
+    ],
   },
   {
     element: <UserAuth />,
@@ -162,22 +161,22 @@ export const router = createBrowserRouter([
             element: <VotingPage />,
           },
           {
-            path: "vote",
+            path: "vote/:id",
             element: <ManageVote />,
             children: [
               {
                 index: true,
-                element: <VotePage />
+                element: <VotePage />,
               },
               {
-                path: "CandidateProfile",
-                element: <CandidateProfile />
-              },
-              {
-                path: "VotingResult",
+                path: "VotingResult/:id",
                 element: <VotingResults />,
               },
-            ]
+            ],
+          },
+          {
+            path: "CandidateProfile/:id",
+            element: <CandidateProfile />,
           },
           {
             path: "ManageProfile",

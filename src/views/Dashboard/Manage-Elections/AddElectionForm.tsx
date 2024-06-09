@@ -22,6 +22,7 @@ const AddElectionForm: React.FC = () => {
       const data = await postElections(formData);
       console.log(data);
       navigate("/Dashboard/ManageElections")
+      
     } catch (error) {
       console.log(error);
     }

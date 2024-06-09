@@ -175,6 +175,46 @@ export const getVotings = async (token: string) => {
 
 
 
+export const addVote = async (userData: any,token: string) => {
+  console.log(userData);
+  const orderData = userData;
+  console.log(orderData);
+  const response = await axios.post(
+    `https://localhost:7285/api/Voter/AddVote/${userData.categoryId}?candidateId=${userData.candidateId}`,
+    orderData,
+    {
+      headers: {
+        Authorization: `bearer ${token}`,  
+      }
+    }
+  );
+  console.log(response);
+  return response;
+};
+
+
+export const GetCategoryById = async (id: string,token: string) => {
+  try {
+    const response = await axios.get(
+      `https://localhost:7285/api/Voter/GetCategoryById/${id}`,
+      {
+        headers: {
+          Authorization: `bearer ${token}`,  
+        }
+      }
+    );
+    const results = await response.data;
+    console.log(results);
+    return results;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
+
+
+
 export const putAdmin = async (userData: any, token: string) => {
   
   console.log(token);

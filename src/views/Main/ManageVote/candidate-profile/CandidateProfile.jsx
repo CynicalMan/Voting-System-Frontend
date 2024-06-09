@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getCandidate, getCandidateAllPosts, objectToArray } from "../../../../helper/helper";
 import Profile from "../../../../components/profile";
 import Carousel from "../../../../components/carousel";
+import { Link } from "react-router-dom";
 
 
 const CandidateProfile = () => {
     const { id } = useParams();
     const [userData, setUserData] = useState(false);
     const [data, setData] = useState([]);
+    const navigate = useNavigate()
 
     const handleGetAdminById = async () => {
         try {
@@ -30,23 +32,10 @@ const CandidateProfile = () => {
         handleGetAdminById();
     }, [id]);
 
-    // data.forEach(element => {
-    //     setData([...data,element])
-    // });
+    const handleBack = () => {
+        navigate(-1);
+    }
 
-    // const handleEditProfile = async (formData: { [key: string]: string }) => {
-    // console.log("edit admin profile Data:", formData);
-    // try {
-    //     console.log(formData);
-
-    //     const data = await putAdmin(formData);
-    //     console.log(data);
-    //     // navigate('/ManageProfile');
-    // } catch (error) {
-    //     console.log(error);
-    // }
-    // };\
-    console.log(data.map(f => ({ image: f.image, postId: f.postId })));
     const carouselData = data.map(f => ({ image: f.image, postId: f.postId }))
 
 
@@ -63,6 +52,14 @@ const CandidateProfile = () => {
                     ) : (
                         <Carousel items={carouselData} />
                     )}
+                </div>
+                <div className="text-center mt-4">
+                    <button
+                        onClick={handleBack}
+                        className="btn secondary-bg text-black"
+                    >
+                        Back
+                    </button>
                 </div>
             </div>
         </>

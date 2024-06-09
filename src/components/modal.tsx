@@ -9,9 +9,17 @@ type Props = {
   onClose: () => void;
   onSave: (id: string) => void;
   deleteId: string;
+  showCheckMark: boolean;
 };
 
-const Modal: React.FC<Props> = ({ show, children, onClose, onSave, deleteId }) => {
+const Modal: React.FC<Props> = ({
+  show,
+  showCheckMark = true,
+  children,
+  onClose,
+  onSave,
+  deleteId,
+}) => {
   if (!show) {
     return null;
   }
@@ -20,12 +28,17 @@ const Modal: React.FC<Props> = ({ show, children, onClose, onSave, deleteId }) =
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-container fw-bold" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="modal-container fw-bold"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="modal-body fs-5">{children}</div>
         <div className="modal-footer">
-          <button className="button" onClick={() => onSave(deleteId)}>
-            <img src={CheckIcon} width={37} height={37} alt="" />
-          </button>
+          {showCheckMark && (
+            <button className="button" onClick={() => onSave(deleteId)}>
+              <img src={CheckIcon} width={37} height={37} alt="" />
+            </button>
+          )}
           <button className="button round-btn" onClick={onClose}>
             <img src={CloseIcon} width={14} height={14} alt="" />
           </button>
